@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Route, Link, useLocation } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import MovieCast from '../components/MovieCast/MovieCast';
 import MovieReviews from '../components/MovieReviews/MovieReviews';
 
@@ -15,7 +15,6 @@ const MovieDetailsPage = ({
   },
 }) => {
   const [details, setFilmsDetails] = useState({});
-  const { pathname } = useLocation();
 
   const {
     original_title,
@@ -23,7 +22,11 @@ const MovieDetailsPage = ({
     overview,
     poster_path,
     genres = [],
+    credits,
+    reviews = {},
   } = details;
+
+  // console.log(reviews);
 
   useEffect(() => {
     axios
@@ -58,8 +61,17 @@ const MovieDetailsPage = ({
           <Link to={`${url}/reviews`}>Reviews</Link>
         </li>
       </ul>
-      <Route exact path="/movies/:movieId/cast" component={MovieCast} />
-      <Route exact path="/movies/:movieId/reviews" component={MovieReviews} />
+
+      <Route
+        exact
+        path="/movies/:movieId/cast"
+        render={props => <MovieCast {...props} credits={credits} />}
+      />
+      <Route
+        exact
+        path="/movies/:movieId/reviews"
+        render={props => <MovieReviews {...props} reviews={reviews} />}
+      />
     </>
   );
 };

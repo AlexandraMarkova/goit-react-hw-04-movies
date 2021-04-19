@@ -9,7 +9,6 @@ function MoviesPage() {
   const [query, setQuery] = useState('');
   const [searchResalts, setSearchResalts] = useState([]);
   const { pathname } = useLocation();
-  //  const [resultId, setResultId] = useState('');
 
   const handleSubmit = e => {
     e.preventDefault();

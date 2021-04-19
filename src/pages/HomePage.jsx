@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
 import axios from 'axios';
 
 const API_KEY = 'ba5dd7d9bd81b9a15ac463967b247cdf';
@@ -20,7 +22,9 @@ const HomePage = () => {
       <ul>
         {films.map(film => (
           <li key={film.id}>
-            {film.title || film.original_title || film.name}
+            <Link to={`/movies/${film.id}`}>
+              {film.title || film.original_title || film.name}
+            </Link>
           </li>
         ))}
       </ul>
