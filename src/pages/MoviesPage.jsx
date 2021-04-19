@@ -5,10 +5,10 @@ import axios from 'axios';
 
 const API_KEY = 'ba5dd7d9bd81b9a15ac463967b247cdf';
 
-function MoviesPage() {
+function MoviesPage({ match: { url } }) {
   const [query, setQuery] = useState('');
   const [searchResalts, setSearchResalts] = useState([]);
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -51,7 +51,7 @@ function MoviesPage() {
       <ul>
         {searchResalts.map(result => (
           <li key={result.id}>
-            <Link to={`${pathname}/${result.id}`}>{result.original_title}</Link>
+            <Link to={`${url}/${result.id}`}>{result.original_title}</Link>
           </li>
         ))}
       </ul>

@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { Route, Link } from 'react-router-dom';
 import MovieCast from '../components/MovieCast/MovieCast';
 import MovieReviews from '../components/MovieReviews/MovieReviews';
+import routes from '../routes';
+import FilmPreview from '../components/FilmPreviev/FilmPreviev';
 
 import axios from 'axios';
 
@@ -17,11 +19,11 @@ const MovieDetailsPage = ({
   const [details, setFilmsDetails] = useState({});
 
   const {
-    original_title,
-    vote_average,
-    overview,
-    poster_path,
-    genres = [],
+    // original_title,
+    // vote_average,
+    // overview,
+    // poster_path,
+    // genres = [],
     credits,
     reviews = {},
   } = details;
@@ -39,7 +41,8 @@ const MovieDetailsPage = ({
   //   console.log(details);
   return (
     <>
-      {poster_path ? (
+      <FilmPreview details={details} />
+      {/* {poster_path ? (
         <img src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt="" />
       ) : null}
       <h1>{original_title}</h1>
@@ -51,7 +54,7 @@ const MovieDetailsPage = ({
         {genres.map(genre => (
           <li key={genre.name}>{genre.name}</li>
         ))}
-      </ul>
+      </ul> */}
 
       <ul>
         <li>
@@ -64,12 +67,12 @@ const MovieDetailsPage = ({
 
       <Route
         exact
-        path="/movies/:movieId/cast"
+        path={routes.cast}
         render={props => <MovieCast {...props} credits={credits} />}
       />
       <Route
         exact
-        path="/movies/:movieId/reviews"
+        path={routes.reviews}
         render={props => <MovieReviews {...props} reviews={reviews} />}
       />
     </>
