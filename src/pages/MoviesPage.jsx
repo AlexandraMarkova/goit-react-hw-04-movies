@@ -1,23 +1,32 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import queryString from 'query-string';
+import Searchbar from '../components/Searchbar/Searchbar';
+import FilmList from '../components/FilmList/FilmList';
 
 import axios from 'axios';
+import { useLocation, useHistory } from 'react-router-dom';
 
 const API_KEY = 'ba5dd7d9bd81b9a15ac463967b247cdf';
 
-function MoviesPage({ match: { url } }) {
-  const [query, setQuery] = useState('');
-  const [searchResalts, setSearchResalts] = useState([]);
-  // const { pathname } = useLocation();
+function MoviesPage() {
+  const location = useLocation();
+  const history = useHistory();
+  const parsed = queryString.parse(location.search);
+  const [query, setQuery] = useState(parsed?.query || '');
+  const [films, setFilms] = useState([]);
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    setQuery(e.target.value);
-    fetchImages();
-  };
+  useEffect(() => {
+    if (query) {
+      history.push({ ...location, search: `?query=${query}` });
+      fetchImages();
+    }
+  }, [query]);
 
-  const handleChange = e => {
-    setQuery(e.target.value);
+  const handleSubmit = searchQuery => {
+    setQuery(searchQuery);
+    if (searchQuery !== query) {
+      setFilms([]);
+    }
   };
 
   const fetchImages = () => {
@@ -26,35 +35,15 @@ function MoviesPage({ match: { url } }) {
         `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${query}&page=1&include_adult=false`,
       )
       .then(response => {
-        setSearchResalts(response.data.results);
+        setFilms(response.data.results);
       });
   };
 
   return (
     <>
-      <form className="SearchForm" value={query} onSubmit={handleSubmit}>
-        <label>
-          <input
-            className="SearchForm-input"
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            onChange={handleChange}
-          />
-          <button type="submit" className="SearchForm-button">
-            <span className="SearchForm-button-label">Search</span>
-          </button>
-        </label>
-      </form>
+      <Searchbar onSubmit={handleSubmit} />
 
-      <ul>
-        {searchResalts.map(result => (
-          <li key={result.id}>
-            <Link to={`${url}/${result.id}`}>{result.original_title}</Link>
-          </li>
-        ))}
-      </ul>
+      <FilmList films={films} query={query} />
     </>
   );
 }

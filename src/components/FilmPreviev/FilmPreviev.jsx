@@ -10,7 +10,10 @@ const FilmPreview = ({ details }) => {
   return (
     <div>
       {poster_path ? (
-        <img src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt="" />
+        <img
+          src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
+          alt={original_title}
+        />
       ) : null}
       <h1>{original_title}</h1>
       <p>User Score: {vote_average}</p>

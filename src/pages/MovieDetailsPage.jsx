@@ -1,10 +1,11 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import { React, useState, useEffect, useLocation } from 'react';
 import { Route, Link } from 'react-router-dom';
+
 import MovieCast from '../components/MovieCast/MovieCast';
 import MovieReviews from '../components/MovieReviews/MovieReviews';
-import routes from '../routes';
 import FilmPreview from '../components/FilmPreviev/FilmPreviev';
+
+import routes from '../routes';
 
 import axios from 'axios';
 
@@ -15,19 +16,13 @@ const MovieDetailsPage = ({
     params: { movieId },
     url,
   },
+  location,
+  query,
+  history,
 }) => {
   const [details, setFilmsDetails] = useState({});
-
-  const {
-    // original_title,
-    // vote_average,
-    // overview,
-    // poster_path,
-    // genres = [],
-    credits,
-    reviews = {},
-  } = details;
-
+  // console.log(location.state);
+  const { credits, reviews = {} } = details;
   // console.log(reviews);
 
   useEffect(() => {
@@ -39,29 +34,42 @@ const MovieDetailsPage = ({
   }, []);
 
   //   console.log(details);
+
+  const handleGoBack = () => {
+    history.push(location?.state?.from || routes.home);
+  };
+
   return (
     <>
+      <button type="button" onClick={handleGoBack}>
+        Go back
+      </button>
       <FilmPreview details={details} />
-      {/* {poster_path ? (
-        <img src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt="" />
-      ) : null}
-      <h1>{original_title}</h1>
-      <p>User Score: {vote_average}</p>
-      <h2>Overview</h2>
-      <p>{overview}</p>
-      <h3>Genres</h3>
-      <ul>
-        {genres.map(genre => (
-          <li key={genre.name}>{genre.name}</li>
-        ))}
-      </ul> */}
 
       <ul>
         <li>
-          <Link to={`${url}/cast`}>Cast</Link>
+          <Link
+            to={{
+              pathname: `${url}/cast`,
+              state: {
+                from: location?.state?.from,
+              },
+            }}
+          >
+            Cast
+          </Link>
         </li>
         <li>
-          <Link to={`${url}/reviews`}>Reviews</Link>
+          <Link
+            to={{
+              pathname: `${url}/reviews`,
+              state: {
+                from: location?.state?.from,
+              },
+            }}
+          >
+            Reviews
+          </Link>
         </li>
       </ul>
 

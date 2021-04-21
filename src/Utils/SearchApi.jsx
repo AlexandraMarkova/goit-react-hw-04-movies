@@ -1,12 +1,18 @@
-import axios from 'axios';
+// import axios from 'axios';
 
-axios.defaults.baseURL = 'https://pixabay.com/api/';
-const API_KEY = '20350102-ed832d5aeaea3e1e1304ff4e5';
+// const API_KEY = 'ba5dd7d9bd81b9a15ac463967b247cdf';
 
-export const fetchImages = ({ searchQuery = '', page = 1, perPage = 12 }) => {
-  return axios
-    .get(
-      `?q=${searchQuery}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${perPage}`,
-    )
-    .then(response => response.data);
-};
+// axios.defaults.baseURL = 'https://api.themoviedb.org';
+// axios.defaults.params = {
+//   api_key: API_KEY,
+//   language: 'en-US',
+// };
+
+// export const fetchPopularFilms = () => {
+//   return axios
+//     .get(`/trending/all/day?`)
+//     .then(({ data }) => data).then(data => console.log(data))
+//     // .catch(console.log);
+// };
+
+// fetchPopularFilms()
