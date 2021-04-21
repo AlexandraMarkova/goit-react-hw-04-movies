@@ -1,8 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-import './MovieReviews.modules.css';
-
 const MovieReviews = ({ reviews }) => {
   const [results, setContent] = useState([]);
 
