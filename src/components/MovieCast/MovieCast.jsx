@@ -1,8 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-import './MovieCast.modules.css';
-
 const MovieCast = ({ credits }) => {
   const [casts, setCasts] = useState([]);
 

@@ -15,7 +15,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   color: #212121;
-  background-color: #fff;
+  background-color: rgb(166, 243, 233);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -30,6 +30,8 @@ img {
   font-size: 20px;
   font-weight: bold;
   color: currentColor;
+  margin-right: 30px;
+  text-decoration: none;
 }
 
 .NavLink--aktiv {

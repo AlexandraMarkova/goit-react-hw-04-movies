@@ -1,24 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import FilmList from '../components/FilmList/FilmList';
-import axios from 'axios';
-
-const API_KEY = 'ba5dd7d9bd81b9a15ac463967b247cdf';
+import { fetchPopularFilms } from '../Utils/SearchApi';
 
 const HomePage = () => {
   const [films, setfilms] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`)
-      .then(response => setfilms(response.data.results));
+    getFilms();
   }, []);
+
+  const getFilms = () => {
+    return fetchPopularFilms()
+      .then(data => setfilms(data.results))
+      .catch(error => setError(error));
+  };
 
   // console.log(films);
 
   return (
     <>
-      <h1>Trending today</h1>
-      <FilmList films={films} />
+      {error ? (
+        <h1>sorry try later</h1>
+      ) : (
+        <div>
+          <h1>Trending today</h1>
+          {films && <FilmList films={films} />}
+        </div>
+      )}
     </>
   );
 };
