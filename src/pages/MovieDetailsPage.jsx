@@ -1,12 +1,20 @@
-import { React, useState, useEffect } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { React, useState, useEffect, lazy, Suspense } from 'react';
+import { Route, Link, Switch } from 'react-router-dom';
 
-import MovieCast from '../components/MovieCast/MovieCast';
-import MovieReviews from '../components/MovieReviews/MovieReviews';
 import FilmPreview from '../components/FilmPreviev/FilmPreviev';
 import { fetchFilmsDetails } from '../Utils/SearchApi';
-
 import routes from '../routes';
+
+const MovieCast = lazy(() =>
+  import(
+    '../components/MovieCast/MovieCast' /* webpackChunkName: "Movie-Cast" */
+  ),
+);
+const MovieReviews = lazy(() =>
+  import(
+    '../components/MovieReviews/MovieReviews' /* webpackChunkName: "RMovie-Reviews" */
+  ),
+);
 
 const MovieDetailsPage = ({
   match: {
@@ -74,17 +82,20 @@ const MovieDetailsPage = ({
               </Link>
             </li>
           </ul>
-
-          <Route
-            exact
-            path={routes.cast}
-            render={props => <MovieCast {...props} credits={credits} />}
-          />
-          <Route
-            exact
-            path={routes.reviews}
-            render={props => <MovieReviews {...props} reviews={reviews} />}
-          />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Switch>
+              <Route
+                exact
+                path={routes.cast}
+                render={props => <MovieCast {...props} credits={credits} />}
+              />
+              <Route
+                exact
+                path={routes.reviews}
+                render={props => <MovieReviews {...props} reviews={reviews} />}
+              />
+            </Switch>
+          </Suspense>
         </>
       )}
     </>
